@@ -24,7 +24,7 @@ public class Card extends com.stripe.model.StripeObject {
     public static final int MAX_LENGTH_AMERICAN_EXPRESS = 15;
     public static final int MAX_LENGTH_DINERS_CLUB = 14;
 
-
+    private String id;
     private String number;
     private String cvc;
     private Integer expMonth;
@@ -47,6 +47,7 @@ public class Card extends com.stripe.model.StripeObject {
         private final String cvc;
         private final Integer expMonth;
         private final Integer expYear;
+        private String id;
         private String name;
         private String addressLine1;
         private String addressLine2;
@@ -65,6 +66,11 @@ public class Card extends com.stripe.model.StripeObject {
             this.expMonth = expMonth;
             this.expYear = expYear;
             this.cvc = cvc;
+        }
+
+        public Builder id(String id) {
+            this.id = id;
+            return this;
         }
 
         public Builder name(String name) {
@@ -134,6 +140,7 @@ public class Card extends com.stripe.model.StripeObject {
     }
 
     private Card(Builder builder) {
+        this.id = builder.id;
         this.number = TextUtils.nullIfBlank(normalizeCardNumber(builder.number));
         this.expMonth = builder.expMonth;
         this.expYear = builder.expYear;
@@ -154,8 +161,9 @@ public class Card extends com.stripe.model.StripeObject {
         this.currency = TextUtils.nullIfBlank(builder.currency);
     }
 
-    public Card(String number, Integer expMonth, Integer expYear, String cvc, String name, String addressLine1, String addressLine2, String addressCity,
+    public Card(String id, String number, Integer expMonth, Integer expYear, String cvc, String name, String addressLine1, String addressLine2, String addressCity,
                 String addressState, String addressZip, String addressCountry, String last4, String type, String fingerprint, String country) {
+        this.id = TextUtils.nullIfBlank(id);
         this.number = TextUtils.nullIfBlank(normalizeCardNumber(number));
         this.expMonth = expMonth;
         this.expYear = expYear;
@@ -177,11 +185,11 @@ public class Card extends com.stripe.model.StripeObject {
     }
 
     public Card(String number, Integer expMonth, Integer expYear, String cvc, String name, String addressLine1, String addressLine2, String addressCity, String addressState, String addressZip, String addressCountry, String currency) {
-        this(number, expMonth, expYear, cvc, name, addressLine1, addressLine2, addressCity, addressState, addressZip, addressCountry, null, null, null, null);
+        this(null, number, expMonth, expYear, cvc, name, addressLine1, addressLine2, addressCity, addressState, addressZip, addressCountry, null, null, null, null);
     }
 
     public Card(String number, Integer expMonth, Integer expYear, String cvc) {
-        this(number, expMonth, expYear, cvc, null, null, null, null, null, null, null, null, null, null, null);
+        this(null, number, expMonth, expYear, cvc, null, null, null, null, null, null, null, null, null, null, null);
     }
 
     public boolean validateCard() {
@@ -284,6 +292,14 @@ public class Card extends com.stripe.model.StripeObject {
             return null;
         }
         return number.trim().replaceAll("\\s+|-", "");
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNumber() {

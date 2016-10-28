@@ -214,11 +214,11 @@ public class Card extends com.stripe.model.StripeObject {
             return false;
         }
 
-        if (AMERICAN_EXPRESS.equals(type)) {
+        if (AMERICAN_EXPRESS.equals(getType())) {
             return rawNumber.length() == MAX_LENGTH_AMERICAN_EXPRESS;
-        } else if (DINERS_CLUB.equals(type)) {
+        } else if (DINERS_CLUB.equals(getType())) {
             return rawNumber.length() == MAX_LENGTH_DINERS_CLUB;
-        } else if (VISA.equals(type) && TextUtils.hasAnyPrefix(rawNumber, PREFIXES_VISA_SHORT)) {
+        } else if (VISA.equals(getType()) && TextUtils.hasAnyPrefix(rawNumber, PREFIXES_VISA_SHORT)) {
             return rawNumber.length() == MAX_LENGTH_VISA_SHORT;
         } else {
             return rawNumber.length() == MAX_LENGTH_STANDARD;
@@ -312,6 +312,7 @@ public class Card extends com.stripe.model.StripeObject {
 
     public void setNumber(String number) {
         this.number = number;
+        this.type = null;
     }
 
     public String getCVC() {

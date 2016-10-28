@@ -14,15 +14,17 @@ public class Card extends com.stripe.model.StripeObject {
 
     // Based on http://en.wikipedia.org/wiki/Bank_card_number#Issuer_identification_number_.28IIN.29
     public static final String[] PREFIXES_AMERICAN_EXPRESS = {"34", "37"};
-    public static final String[] PREFIXES_DISCOVER = {"60", "62", "64", "65"};
+    public static final String[] PREFIXES_DISCOVER = {"6011", "622", "64", "65"};
     public static final String[] PREFIXES_JCB = {"35"};
     public static final String[] PREFIXES_DINERS_CLUB = {"300", "301", "302", "303", "304", "305", "309", "36", "38", "39"};
     public static final String[] PREFIXES_VISA = {"4"};
-    public static final String[] PREFIXES_MASTERCARD = {"50", "51", "52", "53", "54", "55"};
+    public static final String[] PREFIXES_MASTERCARD = {"2", "5"};
+    public static final String[] PREFIXES_VISA_SHORT = {"413600", "444509", "444550", "450603", "450617", "450628", "450629", "450636", "450640", "450641", "450662", "463100", "476142", "476143", "492901", "492902", "492920", "492923", "492923", "492928", "492929", "492930", "492937", "492939", "492960"};
 
     public static final int MAX_LENGTH_STANDARD = 16;
     public static final int MAX_LENGTH_AMERICAN_EXPRESS = 15;
     public static final int MAX_LENGTH_DINERS_CLUB = 14;
+    public static final int MAX_LENGTH_VISA_SHORT = 13;
 
     private String id;
     private String number;
@@ -216,6 +218,8 @@ public class Card extends com.stripe.model.StripeObject {
             return rawNumber.length() == MAX_LENGTH_AMERICAN_EXPRESS;
         } else if (DINERS_CLUB.equals(type)) {
             return rawNumber.length() == MAX_LENGTH_DINERS_CLUB;
+        } else if (VISA.equals(type) && TextUtils.hasAnyPrefix(rawNumber, PREFIXES_VISA_SHORT)) {
+            return rawNumber.length() == MAX_LENGTH_VISA_SHORT;
         } else {
             return rawNumber.length() == MAX_LENGTH_STANDARD;
         }

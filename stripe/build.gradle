@@ -23,6 +23,9 @@ android {
     }
 }
 
+allprojects {
+    tasks.withType(Javadoc).all { enabled = false }
+}
 // Apply chrisbanes' excellent gradle-mvn-push recipe,
 // which lets us publish the build artifacts to maven
 // without *writing a single line of XML.*
